@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?        @unique
+  // hashedPassword if we allow for register
+  hashedPassword String?
+  // Unsure if need
+  emailVerified  DateTime?
+  // If user has a image
+  image          String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  favoriteIds    String[]       @db.ObjectId
+  posts          Post[]
+  comments       Comment[]
+  PostLikes      PostLikes[]
+  CommentLikes   CommentLikes[]
+}
+
+// a Post should contain info of the stuff
+model Post {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String      @db.ObjectId
+  title      String
+  content    String
+  images     String[] // no optional array in prisma
+  country    String
+  city       String
+  datePosted DateTime    @default(now())
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments   Comment[]
+  postLikes  PostLikes[]
+}
+
+model Comment {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  postId       String         @db.ObjectId
+  userId       String         @db.ObjectId
+  content      String
+  datePosted   DateTime       @default(now())
+  post         Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentLikes CommentLikes[]
+}
+
+model PostLikes {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  value  Int // -1 or +1
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String @db.ObjectId
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model CommentLikes {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  value     Int // -1 or +1
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentId String  @db.ObjectId
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+}
