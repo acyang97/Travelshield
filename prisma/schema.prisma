@@ -25,8 +25,28 @@ model User {
   favoriteIds    String[]       @db.ObjectId
   posts          Post[]
   comments       Comment[]
-  PostLikes      PostLikes[]
-  CommentLikes   CommentLikes[]
+  postLikes      PostLikes[]
+  commentLikes   CommentLikes[]
+  account        Account[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId // the id of the user
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+  // create the relation to the user
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 // a Post should contain info of the stuff
