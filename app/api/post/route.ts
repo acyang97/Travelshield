@@ -15,7 +15,6 @@ export async function POST(request: Request): Promise<Response> {
   const { title, content, categories, country, city, images, countryCode } =
     body;
 
-  console.log("body", body);
   // see how we can make this better later
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
@@ -40,9 +39,24 @@ export async function POST(request: Request): Promise<Response> {
 
 // get all without filter first
 export async function GET(request: NextRequest) {
-  const posts = await prisma.post.findMany({
+  const currentUser = await getCurrentUser();
+  let posts = await prisma.post.findMany({
     include: { user: true, postLikes: true, comments: true },
     orderBy: [{ datePosted: "desc" }],
   });
-  return NextResponse.json(posts);
+  // find out if it is liked by user
+  let formattedPosts = posts.map((post) => {
+    const postLikes = post.postLikes;
+    const exist = postLikes.find(
+      (postLike) =>
+        postLike.postId === post.id &&
+        postLike.userId === currentUser?.id &&
+        postLike.value === 1
+    );
+    return {
+      ...post,
+      likedByUser: exist ? true : false,
+    };
+  });
+  return NextResponse.json(formattedPosts);
 }

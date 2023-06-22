@@ -6,7 +6,7 @@ import SinglePost from "./SinglePost/SinglePost";
 import axios from "axios";
 import { Post } from "@prisma/client";
 import { useQuery } from "react-query";
-import { IFullPost } from "../interfaces/post.interface";
+import { FormattedFullPost } from "../interfaces/post.interface";
 
 interface Props {
   currentUser?: SafeUser | null;
@@ -19,11 +19,11 @@ const FeedClient: React.FC<Props> = ({ currentUser }) => {
     </div>
   );
 
-  const getPosts = async (): Promise<IFullPost[] | undefined> => {
+  const getPosts = async (): Promise<FormattedFullPost[] | undefined> => {
     try {
       const result = await axios.get("/api/post");
       const data = result.data;
-      return data as unknown as IFullPost[];
+      return data as unknown as FormattedFullPost[];
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +35,6 @@ const FeedClient: React.FC<Props> = ({ currentUser }) => {
   // }, [getPosts]);
 
   // update later
-  useEffect(() => {}, []);
   return (
     <main>
       <div className="py-14" />

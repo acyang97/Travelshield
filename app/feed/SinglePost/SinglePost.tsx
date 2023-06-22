@@ -1,9 +1,9 @@
 "use client";
 
-import { IFullPost } from "@/app/interfaces/post.interface";
+import { FormattedFullPost } from "@/app/interfaces/post.interface";
 import { formatDate } from "@/app/utils/date.utils";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Tag from "./Tag";
 import { Country } from "country-state-city";
 import { AiFillHeart } from "react-icons/ai";
@@ -12,10 +12,13 @@ import LikeButton from "./LikeButton";
 import CommentButton from "./CommentButton";
 
 interface Props {
-  post: IFullPost;
+  post: FormattedFullPost;
   currentUser?: SafeUser | null;
 }
 const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
+  const [numberOfLikes, setNumberOfLikes] = useState(
+    post.postLikes.filter((postLike) => postLike.value === 1).length
+  );
   const TagsContainer = (
     <div className="mb-2">
       <Tag
@@ -65,16 +68,21 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
                 onClick={() => {}}
               />
               <span className="ml-1 text-gray-500font-light">
-                {post.postLikes.length} likes
+                {numberOfLikes} {numberOfLikes === 1 ? "like" : "likes"}
               </span>
             </div>
             <div className="ml-1 text-gray-500 font-light">
-              {post.comments.length} comments
+              {post.comments.length}{" "}
+              {post.comments.length === 1 ? "comment" : "comments"}
             </div>
           </div>
           <hr className="h-px my-2 bg-gray-200 border-0"></hr>
           <div className="flex flex-row">
-            <LikeButton currentUser={currentUser} />
+            <LikeButton
+              currentUser={currentUser}
+              post={post}
+              setNumberOfLikes={setNumberOfLikes}
+            />
             <CommentButton />
           </div>
         </div>

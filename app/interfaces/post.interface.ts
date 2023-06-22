@@ -5,3 +5,7 @@ export interface IFullPost extends Post {
   comments: Comment[];
   postLikes: PostLikes[];
 }
+
+export interface FormattedFullPost extends IFullPost {
+  likedByUser: boolean;
+}

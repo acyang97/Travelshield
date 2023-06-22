@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     return NextResponse.error();
   }
   const body = await request.json();
-  const { postId } = body;
+  const { postId, likeValue } = body;
 
   if (!postId || typeof postId !== "string") {
     throw new Error("Invalid ID");
@@ -22,15 +22,13 @@ export async function POST(request: Request) {
   });
   let updatedPostLike;
   if (currentPostLike) {
-    // update this
-    const val = currentPostLike.value;
     updatedPostLike = await prisma.postLikes.update({
       where: {
         id: currentPostLike.id,
       },
       data: {
         value: {
-          set: val === 1 ? 0 : 1,
+          set: likeValue,
         },
       },
     });

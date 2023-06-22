@@ -1,9 +1,9 @@
 "use client";
 
-import { AiOutlineHeart } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
 
 const CommentButton = () => {
-  const iconToShow = <AiOutlineHeart size={20} />;
+  const iconToShow = <BiCommentDetail size={20} />;
 
   return (
     <div className="basis-1/2 flex justify-center align-middle m-1">
