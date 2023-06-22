@@ -61,6 +61,7 @@ model Post {
   countryCode String
   city        String
   datePosted  DateTime    @default(now())
+  lastUpdated DateTime    @default(now())
   userId      String      @db.ObjectId
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments    Comment[]
@@ -79,6 +80,7 @@ model Comment {
   userId       String         @db.ObjectId
   content      String
   datePosted   DateTime       @default(now())
+  lastUpdated  DateTime       @default(now())
   post         Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   commentLikes CommentLikes[]
@@ -89,7 +91,7 @@ model Comment {
 model PostLikes {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId
-  value  Int // -1 or +1
+  value  Int // 0 or +1
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId String @db.ObjectId
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -100,7 +102,7 @@ model PostLikes {
 model CommentLikes {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   userId    String  @db.ObjectId
-  value     Int // -1 or +1
+  value     Int // 0 or +1
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   commentId String  @db.ObjectId
   comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
