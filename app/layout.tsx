@@ -22,7 +22,10 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className={nunito.className} suppressHydrationWarning={true}>
+      <body
+        className={`${nunito.className} bg-slate-50`}
+        suppressHydrationWarning={true}
+      >
         <ClientOnly>
           <ToastProvider />
           <NavBar currentUser={currentUser} />

@@ -8,6 +8,8 @@ import Tag from "./Tag";
 import { Country } from "country-state-city";
 import { AiFillHeart } from "react-icons/ai";
 import { SafeUser } from "@/app/types";
+import LikeButton from "./LikeButton";
+import CommentButton from "./CommentButton";
 
 interface Props {
   post: IFullPost;
@@ -30,7 +32,7 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   return (
     <>
       <div className="px-0 py-3 md:py-8 md:px-8 flex items-center justify-center">
-        <div className="px-5 py-4 bg-slate-50 shadow rounded-lg w-[100%] md:w-[75%]">
+        <div className="px-3 py-4 bg-white shadow rounded-lg w-[100%] md:w-[75%]">
           <div className="flex mb-4">
             <Image
               alt="user"
@@ -69,6 +71,11 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
             <div className="ml-1 text-gray-500 font-light">
               {post.comments.length} comments
             </div>
+          </div>
+          <hr className="h-px my-2 bg-gray-200 border-0"></hr>
+          <div className="flex flex-row">
+            <LikeButton currentUser={currentUser} />
+            <CommentButton />
           </div>
         </div>
       </div>
