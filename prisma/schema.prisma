@@ -13,7 +13,8 @@ datasource db {
 model User {
   id             String         @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?        @unique
+  displayName    String?
+  email          String?
   // hashedPassword if we allow for register
   hashedPassword String?
   // Unsure if need
@@ -28,6 +29,8 @@ model User {
   postLikes      PostLikes[]
   commentLikes   CommentLikes[]
   account        Account[]
+
+  @@index([email], map: "user_index")
 }
 
 model Account {
@@ -63,6 +66,12 @@ model Post {
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments   Comment[]
   postLikes  PostLikes[]
+
+  @@index([userId], map: "find_by_userId_index")
+  @@index([country, city, datePosted], map: "find_by_location_index")
+  @@index([title], map: "find_by_title_index")
+  @@index([topic], map: "find_by_topic_index")
+  @@index([content], map: "find_by_content_index")
 }
 
 model Comment {
@@ -74,6 +83,8 @@ model Comment {
   post         Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   commentLikes CommentLikes[]
+
+  @@index([postId], map: "find_by_postId_index")
 }
 
 model PostLikes {
@@ -83,6 +94,8 @@ model PostLikes {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId String @db.ObjectId
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId], map: "find_by_postId_index")
 }
 
 model CommentLikes {
@@ -92,4 +105,6 @@ model CommentLikes {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   commentId String  @db.ObjectId
   comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@index([commentId], map: "find_by_commentId_index")
 }
