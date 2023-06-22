@@ -5,6 +5,11 @@ import Input from "../components/Input";
 import CountrySelect from "../components/CountrySelect";
 import { SafeUser } from "../types";
 import React from "react";
+import CitySelect from "../components/CitySelect";
+import {
+  FormattedCity,
+  FormattedCountry,
+} from "../interfaces/country.interface";
 
 interface PostClientProps {
   currentUser?: SafeUser | null;
@@ -22,13 +27,12 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
       images: [],
       topic: "",
       country: null, // will pass an object
-      city: "",
+      city: null,
       content: "",
     },
   });
-
-  const city = watch("city");
-  const country = watch("country");
+  const city = watch("city") as FormattedCity;
+  const country = watch("country") as FormattedCountry;
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -60,7 +64,6 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
   };
-  console.log(errors);
 
   const postForm = (
     <div className="flex flex-col gap-4 mx-5 md:mx-20 mt-10">
@@ -71,6 +74,25 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         register={register}
         errors={errors}
       />
+      <div className="flex flex-col gap-4">
+        <CountrySelect
+          register={register}
+          errors={errors}
+          value={country}
+          onChange={(value) => {
+            setCustomValue("country", value);
+            setCustomValue("city", null);
+          }}
+        />
+      </div>
+      <div className="flex flex-col gap-4">
+        <CitySelect
+          countryCode={country?.isoCode}
+          register={register}
+          value={city}
+          onChange={(value) => setCustomValue("city", value)}
+        />
+      </div>
       <Input
         id="content"
         label="Content"
@@ -79,14 +101,6 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         errors={errors}
         useTextArea={true}
       />
-      <div className="flex flex-col gap-4">
-        <CountrySelect
-          register={register}
-          errors={errors}
-          value={country}
-          onChange={(value) => setCustomValue("country", value)}
-        />
-      </div>
       <div className="flex justify-center">
         <div
           className="w-full md:w-[30%] text-white bg-emerald-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex flex-row justify-center cursor-pointer"
@@ -97,12 +111,6 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
       </div>
     </div>
   );
-
-  // What inputs I need
-  // 1. title
-  // 2. country and city
-  // 3. content
-  // 4. images
 
   return (
     <>
