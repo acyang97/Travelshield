@@ -64,11 +64,12 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
       const formattedData = {
         ...data,
         country: data.country.name,
+        countryCode: data.country.isoCode,
         city: data.city.name,
         categories: formattedTags,
       };
       setIsLoading(true);
-      const result = await axios.post("/api/post", formattedData);
+      await axios.post("/api/post", formattedData);
       reset();
       toast.success("Successfully shared your travel tip");
     } catch (error) {

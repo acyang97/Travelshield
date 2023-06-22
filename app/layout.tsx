@@ -5,7 +5,7 @@ import { Nunito } from "next/font/google";
 import ToastProvider from "./providers/ToastProvider";
 import getCurrentUser from "./actions/getCurrentUser";
 import LoginModal from "./components/modals/LoginModal";
-import useLoginModal from "./hooks/useLoginModal";
+import Providers from "./utils/Providers";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -28,7 +28,7 @@ export default async function RootLayout({
           <NavBar currentUser={currentUser} />
           <LoginModal />
         </ClientOnly>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

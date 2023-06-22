@@ -1,4 +1,4 @@
-import Image from "next/image";
+"use client";
 
 export default function Home() {
   const headerContent = (
@@ -8,7 +8,7 @@ export default function Home() {
         <p className="sm:text-base text-lg">
           Welcome to our vibrant travel community, TravelShield, a platform
           dedicated to sharing valuable insights from personal adventures.
-          Whether you've encountered scams to beware of, mastered the art of
+          Whether you have encountered scams to beware of, mastered the art of
           city exploration, or discovered clever money-saving techniques, your
           experiences can now be a guiding light for fellow travelers. Our
           user-friendly website fosters an inclusive and collaborative
@@ -19,6 +19,7 @@ export default function Home() {
       </div>
     </div>
   );
+
   return (
     <main>
       <div className="py-14" />

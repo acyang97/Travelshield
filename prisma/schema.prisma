@@ -52,18 +52,19 @@ model Account {
 
 // a Post should contain info of the stuff
 model Post {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String      @db.ObjectId
-  title      String
-  content    String
-  categories String[]
-  images     String[] // no optional array in prisma
-  country    String
-  city       String
-  datePosted DateTime    @default(now())
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments   Comment[]
-  postLikes  PostLikes[]
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String
+  categories  String[]
+  images      String[] // no optional array in prisma
+  country     String
+  countryCode String
+  city        String
+  datePosted  DateTime    @default(now())
+  userId      String      @db.ObjectId
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  postLikes   PostLikes[]
 
   @@index([userId], map: "find_by_userId_index")
   @@index([country, city, datePosted], map: "find_by_location_index")

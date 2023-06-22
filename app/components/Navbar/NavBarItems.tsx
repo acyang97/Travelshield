@@ -30,7 +30,7 @@ const NavBarItems: React.FC<Props> = ({ currentUser }) => {
           Home
         </Link>
         <Link
-          href="/"
+          href="/feed"
           className="text-sm font-semibold px-4 cursor-pointer rounded-lg  transition hover:bg-neutral-100"
         >
           Feed

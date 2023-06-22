@@ -1,4 +1,4 @@
-import { Country, State, City } from "country-state-city";
+import { Country } from "country-state-city";
 import { FormattedCountry } from "../interfaces/country.interface";
 
 const formattedCountries: FormattedCountry[] = Country.getAllCountries().map(
