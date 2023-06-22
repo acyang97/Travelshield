@@ -60,6 +60,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
   };
+  console.log(errors);
 
   const postForm = (
     <div className="flex flex-col gap-4 mx-5 md:mx-20 mt-10">
@@ -79,10 +80,9 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         useTextArea={true}
       />
       <div className="flex flex-col gap-4">
-        <h5 className="block mb-2 text-lg font-medium text-gray-900">
-          Country
-        </h5>
         <CountrySelect
+          register={register}
+          errors={errors}
           value={country}
           onChange={(value) => setCustomValue("country", value)}
         />
