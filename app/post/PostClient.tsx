@@ -10,9 +10,9 @@ import {
   FormattedCity,
   FormattedCountry,
 } from "../interfaces/country.interface";
-import TagSelect from "../components/TagSelect";
-import { TAG_OPTIONS } from "../constants/tags.constants";
-import { Tag } from "../interfaces/tag.interface";
+import { CATEGORIES_OPTIONS } from "../constants/categories.constants";
+import { Category } from "../interfaces/category.interface";
+import CategorySelect from "../components/CategoriesSelect";
 
 interface PostClientProps {
   currentUser?: SafeUser | null;
@@ -28,7 +28,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
     defaultValues: {
       title: "",
       images: [],
-      tags: [TAG_OPTIONS[25]],
+      categories: [CATEGORIES_OPTIONS[25]],
       country: null, // will pass an object
       city: null,
       content: "",
@@ -36,7 +36,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
   });
   console.log(errors);
   const city = watch("city") as FormattedCity;
-  const tags = watch("tags") as Tag[];
+  const categories = watch("categories") as Category[];
   const country = watch("country") as FormattedCountry;
 
   const setCustomValue = (id: string, value: any) => {
@@ -80,11 +80,11 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         register={register}
         errors={errors}
       />
-      <TagSelect
+      <CategorySelect
         register={register}
         errors={errors}
-        value={tags}
-        onChange={(value) => setCustomValue("tags", value)}
+        value={categories}
+        onChange={(value) => setCustomValue("categories", value)}
       />
       <div className="flex flex-col gap-4">
         <CountrySelect

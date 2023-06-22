@@ -1,4 +1,4 @@
-export interface Tag {
+export interface Category {
   label: string;
   value: string;
 }

@@ -1,46 +1,51 @@
 import React from "react";
 
 import Select from "react-select";
-import { TAG_OPTIONS } from "../constants/tags.constants";
-import { Tag } from "../interfaces/tag.interface";
+import { CATEGORIES_OPTIONS } from "../constants/categories.constants";
+import { Category } from "../interfaces/category.interface";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface Props {
-  value?: Tag[] | null;
-  onChange: (value: Tag[] | null) => void;
+  value?: Category[] | null;
+  onChange: (value: Category[] | null) => void;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
 }
 
-const TagSelect: React.FC<Props> = ({ value, onChange, register, errors }) => {
+const CategorySelect: React.FC<Props> = ({
+  value,
+  onChange,
+  register,
+  errors,
+}) => {
   const placeHolder = (
     <div className="text-sm font-medium text-gray-400 flex align-center">
-      <span>Choose some tags</span>
+      <span>Choose some categories</span>
     </div>
   );
-  console.log("Does it exist???", errors["tags"]);
-  const borderColor = errors["tags"] ? "border-red-500" : "border-black";
+
+  const borderColor = errors["categories"] ? "border-red-500" : "border-black";
   return (
     <div>
       <div>
         <h5 className="block mb-[8px] text-lg font-medium text-gray-900">
-          Tags - What is your post about?
+          Categories - What is your post about?
         </h5>
       </div>
       <Select
         placeholder={placeHolder}
-        defaultValue={TAG_OPTIONS[25]}
+        defaultValue={CATEGORIES_OPTIONS[25]}
         isMulti
-        {...register("tags", { minLength: 1, required: true })}
+        {...register("categories", { minLength: 1, required: true })}
         onChange={(value) => {
           // hackish way
-          if ((value as Tag[]).length === 0) {
+          if ((value as Category[]).length === 0) {
             onChange(null);
           }
-          onChange(value as Tag[]);
+          onChange(value as Category[]);
         }}
         name="colors"
-        options={TAG_OPTIONS}
+        options={CATEGORIES_OPTIONS}
         className="basic-multi-select"
         classNamePrefix="select"
         theme={(theme) => ({
@@ -48,13 +53,13 @@ const TagSelect: React.FC<Props> = ({ value, onChange, register, errors }) => {
           borderRadius: 6,
         })}
       />
-      {errors["tags"] && (
+      {errors["categories"] && (
         <p className="mt-[8px] text-sm text-red-600 dark:text-red-500">
-          <span className="font-medium">*Choose 1 tag minimally</span>
+          <span className="font-medium">*Choose 1 category minimally</span>
         </p>
       )}
     </div>
   );
 };
 
-export default TagSelect;
+export default CategorySelect;

@@ -1,4 +1,4 @@
-const TAGS = [
+const CATEGORIES = [
   "Accommodations",
   "Adventure",
   "Art and architecture",
@@ -30,9 +30,9 @@ const TAGS = [
   "Wildlife",
 ];
 
-export const TAG_OPTIONS = TAGS.map((tag) => {
+export const CATEGORIES_OPTIONS = CATEGORIES.map((category) => {
   return {
-    label: tag,
-    value: tag,
+    label: category,
+    value: category,
   };
 });
