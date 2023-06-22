@@ -50,22 +50,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            {currentUser ? (
-              <>
-                <MenuItem onClick={() => {}} label="My Trips" />
-                <MenuItem onClick={() => {}} label="My Properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my home" />
-                <MenuItem onClick={signOut} label="Logout" />
-              </>
-            ) : (
-              <>
-                <MenuItem
-                  onClick={() => signIn("google")}
-                  label="Login"
-                  // icon={FcGoogle}
-                />
-              </>
-            )}
+            <MenuItem onClick={() => {}} label="Profile" />
+            <MenuItem onClick={() => {}} label="Settings" />
+            <MenuItem onClick={signOut} label="Logout" />
           </div>
         </div>
       )}

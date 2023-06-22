@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import MaxContainer from "../MaxContainer";
 import Logo from "./Logo";
@@ -26,7 +25,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
             "
             >
               <Logo />
-              <NavBarItems />
+              <NavBarItems currentUser={currentUser} />
               <UserMenu currentUser={currentUser} />
             </div>
           </MaxContainer>
