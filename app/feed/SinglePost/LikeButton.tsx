@@ -23,14 +23,6 @@ const LikeButton: React.FC<Props> = ({
   const [liked, setLiked] = useState(likedByUser);
   const loginModal = useLoginModal();
 
-  // const debouncedClick = useRef(() => {
-  //   debounce(async () => {
-  //     setLiked((current) => !current);
-  //     const body = { postId: post.id, likeValue: liked ? 1 : 0 };
-  //     await axios.post("/api/postLikes", body);
-  //   }, 1000);
-  // }).current;
-
   const updateLike = async () => {
     setLiked((current) => !current);
     setNumberOfLikes((value) => (liked ? value - 1 : value + 1));
