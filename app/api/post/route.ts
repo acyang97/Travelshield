@@ -32,6 +32,7 @@ export async function POST(request: Request): Promise<Response> {
       city,
       images,
       datePosted: new Date(),
+      lastUpdated: new Date(),
     },
   });
   return NextResponse.json(post);

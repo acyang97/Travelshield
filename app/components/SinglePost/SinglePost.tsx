@@ -3,13 +3,14 @@
 import { FormattedFullPost } from "@/app/interfaces/post.interface";
 import { formatDate } from "@/app/utils/date.utils";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Tag from "./Tag";
 import { Country } from "country-state-city";
 import { AiFillHeart } from "react-icons/ai";
 import { SafeUser } from "@/app/types";
 import LikeButton from "./LikeButton";
 import CommentButton from "./CommentButton";
+import CommentBubble from "./CommentBubble";
 
 interface Props {
   post: FormattedFullPost;
@@ -19,8 +20,12 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   const [numberOfLikes, setNumberOfLikes] = useState(
     post.postLikes.filter((postLike) => postLike.value === 1).length
   );
+  const [commentInputOpen, setCommentInputOpen] = useState(false);
+  const toggleShowCommentInput = useCallback(() => {
+    setCommentInputOpen((value) => !value);
+  }, []);
   const TagsContainer = (
-    <div className="mb-2">
+    <div className="mb-2 mx-3">
       <Tag
         tag={`${Country.getCountryByCode(post.countryCode)?.flag} ${
           post.country
@@ -32,11 +37,18 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
       ))}
     </div>
   );
+
+  const CommentsContainer = (
+    <div className="flex flex-col gap-[2px]">
+      <CommentBubble />
+      <CommentBubble />
+    </div>
+  );
   return (
     <>
       <div className="px-0 py-3 md:py-8 md:px-8 flex items-center justify-center">
-        <div className="px-3 py-4 bg-white shadow rounded-lg w-[100%] md:w-[75%]">
-          <div className="flex mb-4">
+        <div className="px-3 py-4 bg-white shadow rounded-lg w-[100%] md:w-[60%]">
+          <div className="flex mb-4 mx-3">
             <Image
               alt="user"
               className="w-12 h-12 rounded-full"
@@ -56,10 +68,10 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
             </div>
           </div>
           {TagsContainer}
-          <p className="text-gray-800  leading-snug md:leading-normal">
+          <p className="text-gray-800 mx-3 leading-snug md:leading-normal">
             {post.content}
           </p>
-          <div className="flex justify-between items-center mt-5">
+          <div className="flex justify-between items-center mt-5 mx-3">
             <div className="flex">
               <AiFillHeart
                 size={20}
@@ -83,8 +95,14 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
               post={post}
               setNumberOfLikes={setNumberOfLikes}
             />
-            <CommentButton />
+            <CommentButton
+              toggleShowCommentInput={toggleShowCommentInput}
+              commentInputOpen={commentInputOpen}
+            />
           </div>
+          {/* Show the comment section */}
+          {/* Just show all comments for now */}
+          {commentInputOpen && CommentsContainer}
         </div>
       </div>
     </>
