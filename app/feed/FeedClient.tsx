@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { SafeUser } from "../types";
-import SinglePost from "./SinglePost/SinglePost";
+import SinglePost from "../components/SinglePost/SinglePost";
 import axios from "axios";
 import { Post } from "@prisma/client";
 import { useQuery } from "react-query";
