@@ -12,14 +12,15 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, content, categories, country, city } = body;
+  const { title, content, categories, country, city, images } = body;
 
+  // see how we can make this better later
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
       NextResponse.error();
     }
   });
-
+  console.log("before creating");
   const listing = await prisma.post.create({
     data: {
       userId: currentUser.id,
@@ -28,7 +29,9 @@ export async function POST(request: Request) {
       categories,
       country,
       city,
+      images,
     },
   });
+  console.log("creating");
   return NextResponse.json(listing);
 }

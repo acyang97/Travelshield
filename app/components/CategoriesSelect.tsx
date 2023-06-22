@@ -24,7 +24,6 @@ const CategorySelect: React.FC<Props> = ({
     </div>
   );
 
-  const borderColor = errors["categories"] ? "border-red-500" : "border-black";
   return (
     <div>
       <div>
@@ -38,7 +37,7 @@ const CategorySelect: React.FC<Props> = ({
         isMulti
         {...register("categories", { minLength: 1, required: true })}
         onChange={(value) => {
-          // hackish way
+          // hackish way since array somehow does not work
           if ((value as Category[]).length === 0) {
             onChange(null);
           }
