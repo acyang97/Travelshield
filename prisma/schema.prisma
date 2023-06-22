@@ -56,7 +56,7 @@ model Post {
   userId     String      @db.ObjectId
   title      String
   content    String
-  topic      String
+  tags       String[]
   images     String[] // no optional array in prisma
   country    String
   city       String
@@ -68,7 +68,7 @@ model Post {
   @@index([userId], map: "find_by_userId_index")
   @@index([country, city, datePosted], map: "find_by_location_index")
   @@index([title], map: "find_by_title_index")
-  @@index([topic], map: "find_by_topic_index")
+  @@index([tags], map: "find_by_tag_index")
   @@index([content], map: "find_by_content_index")
 }
 

@@ -10,6 +10,9 @@ import {
   FormattedCity,
   FormattedCountry,
 } from "../interfaces/country.interface";
+import TagSelect from "../components/TagSelect";
+import { TAG_OPTIONS } from "../constants/tags.constants";
+import { Tag } from "../interfaces/tag.interface";
 
 interface PostClientProps {
   currentUser?: SafeUser | null;
@@ -25,13 +28,15 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
     defaultValues: {
       title: "",
       images: [],
-      topic: "",
+      tags: [TAG_OPTIONS[25]],
       country: null, // will pass an object
       city: null,
       content: "",
     },
   });
+  console.log(errors);
   const city = watch("city") as FormattedCity;
+  const tags = watch("tags") as Tag[];
   const country = watch("country") as FormattedCountry;
 
   const setCustomValue = (id: string, value: any) => {
@@ -45,6 +50,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
   const headerContent = (
     <div className="flex flex-col justify-center items-center">
       <h2 className="text-3xl font-bold">Post a Travel Tip!</h2>
+      {/* Move the bottom to home page later */}
       {/* <div className="mt-5">
         <p className="sm:text-base text-lg">
           Welcome to our vibrant travel community, TravelShield, a platform
@@ -74,6 +80,12 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         register={register}
         errors={errors}
       />
+      <TagSelect
+        register={register}
+        errors={errors}
+        value={tags}
+        onChange={(value) => setCustomValue("tags", value)}
+      />
       <div className="flex flex-col gap-4">
         <CountrySelect
           register={register}
@@ -101,7 +113,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
         errors={errors}
         useTextArea={true}
       />
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-10">
         <div
           className="w-full md:w-[30%] text-white bg-emerald-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex flex-row justify-center cursor-pointer"
           onClick={handleSubmit(onSubmit)}
