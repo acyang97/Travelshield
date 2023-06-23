@@ -50,7 +50,6 @@ export async function GET(request: NextRequest) {
   const city = url.searchParams.get("city");
   const orderBy = url.searchParams.getAll("orderBy");
 
-  console.log("content", content);
   let posts = await prisma.post.findMany({
     ...(limit && { take: parseInt(limit) }),
     ...(page && limit && { skip: (parseInt(page) - 1) * parseInt(limit) }),
