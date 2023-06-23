@@ -89,7 +89,7 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
   const FilterContainer = (
     <aside className="hidden md:block w-1/4 h-screen bg-white fixed left-0 top-0 border-x-[1px] border-slate-200">
       <div className="flex flex-col gap-2">
-        <div className="bg-emerald-400 pb-2 pt-[5.5rem]">
+        <div className="bg-emerald-400 pb-2 pt-[5rem]">
           <h1 className="px-2 text-white text-sm">
             Apply filters here to narrow down the search for travel tips at your
             next destination. You can choose to filter by country, city, and
