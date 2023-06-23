@@ -11,7 +11,6 @@ import { INFINITE_SCROLL_LIMIT } from "../constants/feed.constants";
 import { Loader2 } from "lucide-react";
 import CountryFilter from "../components/Filters/CountryFilter";
 import SinglePostSkeleton from "../components/SinglePost/SinglePostSkeleton";
-import _ from "lodash";
 import HeaderContent from "./HeaderContent";
 import {
   FormattedCity,
@@ -20,6 +19,8 @@ import {
 import CityFilter from "../components/Filters/CityFilter";
 import CategoriesFilter from "../components/Filters/CategoriesFilter";
 import { Category } from "../interfaces/category.interface";
+import SearchFilter from "../components/Filters/SearchFilter";
+import { debounce } from "lodash";
 
 interface Props {
   currentUser?: SafeUser | null;
@@ -28,7 +29,8 @@ interface Props {
 const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
   const [country, setCountry] = useState<FormattedCountry | null>(null);
   const [city, setCity] = useState<FormattedCity | null>(null);
-  const [content, setContent] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSetSearchInput = debounce(setSearchInput, 500);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const lastPostRef = useRef<HTMLElement>(null);
@@ -47,8 +49,8 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
     if (city && country) {
       query += `&city=${city.name}`;
     }
-    if (content) {
-      query += `&content=${content}`;
+    if (searchInput) {
+      query += `&content=${searchInput}`;
     }
     if (categories.length > 0) {
       for (let category of categories) {
@@ -67,6 +69,7 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
         country !== null ? `country=${country.name}` : undefined,
         city !== null ? `city=${city.name}` : undefined,
         ...categories.map((category) => `category=${category.label}`),
+        searchInput,
       ].filter((val) => val !== undefined),
       fetchPosts,
       {
@@ -92,6 +95,12 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
             next destination. You can choose to filter by country, city, and
             content of the post.
           </h1>
+        </div>
+        <div className="mx-4">
+          <SearchFilter
+            searchInput={searchInput}
+            debouncedSetSearchInput={debouncedSetSearchInput}
+          />
         </div>
         <div className="px-4">
           <CountryFilter
