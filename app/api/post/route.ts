@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const limit = url.searchParams.get("limit");
   const page = url.searchParams.get("page");
-  const categories = url.searchParams.getAll("categories");
+  const categories = url.searchParams.getAll("category");
   const country = url.searchParams.get("country");
   const content = url.searchParams.get("content");
   const city = url.searchParams.get("city");
