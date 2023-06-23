@@ -59,10 +59,37 @@ export async function GET(request: NextRequest) {
       orderBy?.length > 0
         ? (orderBy as unknown as any)
         : [{ datePosted: "desc" }],
+    // https://www.mongodb.com/developer/products/mongodb/schema-design-anti-pattern-case-insensitive-query-index/
     where: {
       ...(country && { country }),
       ...(city && country && { city }),
-      ...(content && { content: { contains: content } }),
+      ...(content && {
+        OR: [
+          {
+            content: {
+              mode: "insensitive",
+              contains: content,
+            },
+          },
+          {
+            country: {
+              mode: "insensitive",
+              contains: content,
+            },
+          },
+          {
+            city: {
+              mode: "insensitive",
+              contains: content,
+            },
+          },
+          {
+            categories: {
+              hasSome: content,
+            },
+          },
+        ],
+      }),
       ...(categories?.length > 0 && { categories: { hasEvery: categories } }),
     },
   });

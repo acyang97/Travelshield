@@ -68,7 +68,8 @@ model Post {
   postLikes   PostLikes[]
 
   @@index([userId], map: "find_by_userId_index")
-  @@index([country, city, datePosted], map: "find_by_location_index")
+  @@index([country], map: "find_by_country_index")
+  @@index([city], map: "find_by_city_index")
   @@index([title], map: "find_by_title_index")
   @@index([categories], map: "find_by_category_index")
   @@index([content], map: "find_by_content_index")
