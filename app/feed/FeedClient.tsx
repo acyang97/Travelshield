@@ -18,6 +18,8 @@ import {
   FormattedCountry,
 } from "../interfaces/country.interface";
 import CityFilter from "../components/Filters/CityFilter";
+import CategoriesFilter from "../components/Filters/CategoriesFilter";
+import { Category } from "../interfaces/category.interface";
 
 interface Props {
   currentUser?: SafeUser | null;
@@ -27,7 +29,7 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
   const [country, setCountry] = useState<FormattedCountry | null>(null);
   const [city, setCity] = useState<FormattedCity | null>(null);
   const [content, setContent] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const lastPostRef = useRef<HTMLElement>(null);
 
@@ -50,7 +52,7 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
     }
     if (categories.length > 0) {
       for (let category of categories) {
-        query += `&category=${category}`;
+        query += `&category=${category.label}`;
       }
     }
     const { data } = await axios.get(query);
@@ -62,8 +64,9 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
     useInfiniteQuery(
       [
         "infinite-query-post",
-        country !== null ? country.name : undefined,
-        city !== null ? city.name : undefined,
+        country !== null ? `country=${country.name}` : undefined,
+        city !== null ? `city=${city.name}` : undefined,
+        ...categories.map((category) => `category=${category.label}`),
       ].filter((val) => val !== undefined),
       fetchPosts,
       {
@@ -99,6 +102,12 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
         </div>
         <div className="px-4">
           <CityFilter country={country} city={city} setCity={setCity} />
+        </div>
+        <div className="px-4">
+          <CategoriesFilter
+            categories={categories}
+            setCategories={setCategories}
+          />
         </div>
       </div>
     </aside>

@@ -28,7 +28,7 @@ const FeedPage = async () => {
       ...post,
       likedByUser: exist ? true : false,
     };
-  }) as FormattedFullPost[];
+  }) as unknown as FormattedFullPost[];
 
   return (
     <ClientOnly>
