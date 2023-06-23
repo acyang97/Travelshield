@@ -38,14 +38,36 @@ export async function POST(request: Request): Promise<Response> {
   return NextResponse.json(post);
 }
 
-// get all without filter first
 export async function GET(request: NextRequest) {
   const currentUser = await getCurrentUser();
+
+  const url = new URL(request.url);
+  console.log("URL", url);
+  const limit = url.searchParams.get("limit");
+  const page = url.searchParams.get("page");
+  const categories = url.searchParams.getAll("categories");
+  const country = url.searchParams.get("country");
+  const content = url.searchParams.get("content");
+  const city = url.searchParams.get("city");
+  const orderBy = url.searchParams.getAll("orderBy");
+
   let posts = await prisma.post.findMany({
+    ...(limit && { take: parseInt(limit) }),
+    ...(page && limit && { skip: (parseInt(page) - 1) * parseInt(limit) }),
     include: { user: true, postLikes: true, comments: true },
-    orderBy: [{ datePosted: "desc" }],
+    orderBy:
+      orderBy?.length > 0
+        ? (orderBy as unknown as any)
+        : [{ datePosted: "desc" }],
+    where: {
+      ...(country && { country }),
+      ...(city && { city }),
+      ...(content && { content: { contains: content } }),
+      ...(categories?.length > 0 && { categories: { hasEvery: categories } }),
+    },
   });
-  // find out if it is liked by user
+
+  // find out if it is like by the currentUser
   let formattedPosts = posts.map((post) => {
     const postLikes = post.postLikes;
     const exist = postLikes.find(

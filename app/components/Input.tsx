@@ -5,11 +5,13 @@ import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface Props {
   id: string;
-  label: string;
+  label?: string;
   errors: FieldErrors;
   placeholder?: string;
   register: UseFormRegister<FieldValues>;
   useTextArea?: boolean;
+  textAreaRows?: number;
+  borderRadius?: string;
 }
 const Input: React.FC<Props> = ({
   id,
@@ -18,26 +20,30 @@ const Input: React.FC<Props> = ({
   register,
   placeholder,
   useTextArea,
+  borderRadius,
+  textAreaRows,
 }) => {
   return (
     <>
       <div className="mb-2">
-        <label
-          htmlFor={id}
-          className="block mb-2 text-lg font-medium text-gray-900"
-        >
-          {label}
-        </label>
+        {label && (
+          <label
+            htmlFor={id}
+            className="block mb-2 text-lg font-medium text-gray-900"
+          >
+            {label}
+          </label>
+        )}
         {useTextArea ? (
           <textarea
-            rows={5}
+            rows={textAreaRows ? textAreaRows : 5}
             id={id}
             {...register(id, { required: true })}
-            className={`border text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none focus:outline-none
-          ${errors[id] ? "border-rose-500" : "border-gray-300"}
-          ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
-
-        `}
+            className={`border text-gray-900 text-sm block w-full p-2.5 outline-none focus:outline-none
+            ${borderRadius ? borderRadius : "rounded-lg"}
+            ${errors[id] ? "border-rose-500" : "border-gray-300"}
+            ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
+          `}
             placeholder={placeholder ? placeholder : ""}
           />
         ) : (
