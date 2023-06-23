@@ -4,8 +4,6 @@ import { FormattedFullPost } from "@/app/interfaces/post.interface";
 import { formatDate } from "@/app/utils/date.utils";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
-import Tag from "./Tag";
-import { Country } from "country-state-city";
 import { AiFillHeart } from "react-icons/ai";
 import { SafeUser } from "@/app/types";
 import LikeButton from "./LikeButton";
@@ -15,6 +13,7 @@ import CommentInput from "./CommentInput";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FullComment } from "@/app/interfaces/comment.interface";
+import TagsContainer from "./TagsContainer";
 
 interface Props {
   post: FormattedFullPost;
@@ -40,20 +39,6 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   const { data: commentsData, isLoading } = useQuery(
     [`fetch-comments ${post.id}`],
     fetchComments
-  );
-
-  const TagsContainer = (
-    <div className="mb-2 mx-3">
-      <Tag
-        tag={`${Country.getCountryByCode(post.countryCode)?.flag} ${
-          post.country
-        }`}
-      />
-      <Tag tag={`${post.city}`} />
-      {post.categories.map((category, index) => (
-        <Tag key={index} tag={category} />
-      ))}
-    </div>
   );
 
   const NewCommentsContainer =
@@ -115,18 +100,13 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
               </span>
             </div>
           </div>
-          {TagsContainer}
+          <TagsContainer post={post} />
           <p className="text-gray-800 mx-3 leading-snug md:leading-normal">
             {post.content}
           </p>
           <div className="flex justify-between items-center mt-5 mx-3">
             <div className="flex">
-              <AiFillHeart
-                size={20}
-                color="red"
-                className="cursor-pointer"
-                onClick={() => {}}
-              />
+              <AiFillHeart size={20} color="red" className="cursor-pointer" />
               <span className="ml-1 text-gray-500font-light">
                 {numberOfLikes} {numberOfLikes === 1 ? "like" : "likes"}
               </span>
