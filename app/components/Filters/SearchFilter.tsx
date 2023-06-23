@@ -1,7 +1,7 @@
 "use client";
 
 import { DebouncedFunc } from "lodash";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 
 interface Props {
   debouncedSetSearchInput: DebouncedFunc<
