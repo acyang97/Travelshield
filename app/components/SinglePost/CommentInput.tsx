@@ -1,23 +1,22 @@
 "use client";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { FullComment } from "@/app/interfaces/comment.interface";
 import { SafeUser } from "@/app/types";
 import axios from "axios";
-import React, { useRef } from "react";
-import {
-  FieldErrors,
-  FieldValues,
-  SubmitHandler,
-  UseFormRegister,
-  UseFormReset,
-  useForm,
-} from "react-hook-form";
+import React, { Dispatch, SetStateAction, useRef } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
   postId: string;
   currentUser?: SafeUser | null;
+  setNewComments: Dispatch<SetStateAction<FullComment[]>>;
 }
-const CommentInput: React.FC<Props> = ({ postId, currentUser }) => {
+const CommentInput: React.FC<Props> = ({
+  postId,
+  currentUser,
+  setNewComments,
+}) => {
   const disableButton = useRef(false);
   const loginModal = useLoginModal();
   const {
@@ -37,14 +36,14 @@ const CommentInput: React.FC<Props> = ({ postId, currentUser }) => {
       loginModal.onOpen();
       return;
     }
-    const result = await axios.post(`/api/comment`, {
+    const { data: createdComment } = await axios.post(`/api/comment`, {
       content: data.comment,
       postId,
     });
-    console.log(result);
+    setNewComments((prev) => [...prev, createdComment as FullComment]);
     reset();
     disableButton.current = false;
-    return result;
+    return data;
   };
 
   return (

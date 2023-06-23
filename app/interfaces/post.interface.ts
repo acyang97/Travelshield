@@ -1,4 +1,4 @@
-import { Comment, Post, PostLikes, User } from "@prisma/client";
+import { Post, PostLikes, User } from "@prisma/client";
 
 export interface IFullPost extends Post {
   user: User;

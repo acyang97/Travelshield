@@ -11,9 +11,10 @@ import { SafeUser } from "@/app/types";
 import LikeButton from "./LikeButton";
 import CommentButton from "./CommentButton";
 import CommentBubble from "./CommentBubble";
-import { FieldValues, useForm } from "react-hook-form";
-import Input from "../Input";
 import CommentInput from "./CommentInput";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { FullComment } from "@/app/interfaces/comment.interface";
 
 interface Props {
   post: FormattedFullPost;
@@ -27,6 +28,19 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   const toggleShowCommentInput = useCallback(() => {
     setCommentInputOpen((value) => !value);
   }, []);
+  const [newComments, setNewComments] = useState<FullComment[]>([]);
+
+  const fetchComments = async () => {
+    console.log("fetching comments");
+    const { data } = await axios.get(`/api/comment/${post.id}`);
+    console.log(data);
+    return data as FullComment[];
+  };
+
+  const { data: commentsData, isLoading } = useQuery(
+    [`fetch-comments ${post.id}`],
+    fetchComments
+  );
 
   const TagsContainer = (
     <div className="mb-2 mx-3">
@@ -42,14 +56,42 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
     </div>
   );
 
+  const NewCommentsContainer =
+    newComments.length > 0 ? (
+      <>
+        {newComments.map((comment, index) => (
+          <li key={index}>
+            <CommentBubble comment={comment} />
+          </li>
+        ))}
+      </>
+    ) : null;
+
   const CommentsContainer = (
     <div className="flex flex-col gap-[2px]">
       <div className="ml-[3.25rem]"></div>
-      <CommentInput currentUser={currentUser} postId={post.id} />
-      <CommentBubble />
-      <CommentBubble />
+      <CommentInput
+        currentUser={currentUser}
+        postId={post.id}
+        setNewComments={setNewComments}
+      />
+      <ul>
+        {isLoading ? (
+          <p>Loading</p>
+        ) : (
+          commentsData?.map((comment, index) => {
+            return (
+              <li key={index}>
+                <CommentBubble comment={comment} />
+              </li>
+            );
+          })
+        )}
+        {NewCommentsContainer}
+      </ul>
     </div>
   );
+
   return (
     <>
       <div className="px-0 py-3 md:py-8 md:px-8 flex items-center justify-center">
@@ -89,7 +131,10 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
                 {numberOfLikes} {numberOfLikes === 1 ? "like" : "likes"}
               </span>
             </div>
-            <div className="ml-1 text-gray-500 font-light">
+            <div
+              className="ml-1 text-gray-500 font-light cursor-pointer"
+              onClick={toggleShowCommentInput}
+            >
               {post.comments.length}{" "}
               {post.comments.length === 1 ? "comment" : "comments"}
             </div>
@@ -106,8 +151,6 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
               commentInputOpen={commentInputOpen}
             />
           </div>
-          {/* Show the comment section */}
-          {/* Just show all comments for now */}
           {commentInputOpen && CommentsContainer}
         </div>
       </div>

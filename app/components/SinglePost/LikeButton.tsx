@@ -4,7 +4,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { FormattedFullPost } from "@/app/interfaces/post.interface";
 import { SafeUser } from "@/app/types";
 import axios from "axios";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { debounce } from "lodash";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -38,7 +38,11 @@ const LikeButton: React.FC<Props> = ({
     }
     debounced();
   };
-  const iconToShow = <AiOutlineHeart size={20} />;
+  const iconToShow = liked ? (
+    <AiFillHeart size={20} color="red" />
+  ) : (
+    <AiOutlineHeart size={20} />
+  );
   return (
     <div
       className="basis-1/2 flex justify-center align-middle m-1"

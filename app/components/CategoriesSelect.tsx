@@ -12,12 +12,7 @@ interface Props {
   errors: FieldErrors;
 }
 
-const CategorySelect: React.FC<Props> = ({
-  value,
-  onChange,
-  register,
-  errors,
-}) => {
+const CategorySelect: React.FC<Props> = ({ onChange, register, errors }) => {
   const placeHolder = (
     <div className="text-sm font-medium text-gray-400 flex align-center">
       <span>Choose some categories</span>

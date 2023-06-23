@@ -29,5 +29,15 @@ export async function POST(request: Request) {
       userId: currentUser.id,
     },
   });
-  return NextResponse.json(createdComment);
+
+  const createdCommentWithAttributes = await prisma.comment.findFirst({
+    where: {
+      id: createdComment.id,
+    },
+    include: {
+      user: true,
+      commentLikes: true,
+    },
+  });
+  return NextResponse.json(createdCommentWithAttributes);
 }
