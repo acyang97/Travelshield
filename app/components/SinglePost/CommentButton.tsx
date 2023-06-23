@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
+import React from "react";
 import { BiCommentDetail } from "react-icons/bi";
 
 interface Props {
