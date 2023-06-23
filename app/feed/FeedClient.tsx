@@ -28,7 +28,7 @@ const FeedClient: React.FC<Props> = ({ currentUser, initialPosts }) => {
     threshold: 1,
   });
 
-  const { data, fetchNextPage, isFetchingNextPage, error } = useInfiniteQuery(
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-query-post"],
     async ({ pageParam = 1 }) => {
       let query = `/api/post?limit=${INFINITE_SCROLL_LIMIT}&page=${pageParam}`;

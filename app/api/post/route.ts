@@ -42,7 +42,6 @@ export async function GET(request: NextRequest) {
   const currentUser = await getCurrentUser();
 
   const url = new URL(request.url);
-  console.log("URL", url);
   const limit = url.searchParams.get("limit");
   const page = url.searchParams.get("page");
   const categories = url.searchParams.getAll("categories");

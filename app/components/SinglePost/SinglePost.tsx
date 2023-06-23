@@ -20,19 +20,6 @@ interface Props {
   currentUser?: SafeUser | null;
 }
 const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      content: "",
-    },
-  });
-  const content = watch("content");
-
   const [numberOfLikes, setNumberOfLikes] = useState(
     post.postLikes.filter((postLike) => postLike.value === 1).length
   );
@@ -58,7 +45,7 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   const CommentsContainer = (
     <div className="flex flex-col gap-[2px]">
       <div className="ml-[3.25rem]"></div>
-      <CommentInput register={register} id="content" errors={errors} />
+      <CommentInput currentUser={currentUser} postId={post.id} />
       <CommentBubble />
       <CommentBubble />
     </div>

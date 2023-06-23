@@ -1,27 +1,71 @@
 "use client";
 
-import React from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { SafeUser } from "@/app/types";
+import axios from "axios";
+import React, { useRef } from "react";
+import {
+  FieldErrors,
+  FieldValues,
+  SubmitHandler,
+  UseFormRegister,
+  UseFormReset,
+  useForm,
+} from "react-hook-form";
 
 interface Props {
-  id: string;
-  errors: FieldErrors;
-  register: UseFormRegister<FieldValues>;
+  postId: string;
+  currentUser?: SafeUser | null;
 }
+const CommentInput: React.FC<Props> = ({ postId, currentUser }) => {
+  const disableButton = useRef(false);
+  const loginModal = useLoginModal();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      comment: "",
+    },
+  });
 
-const CommentInput: React.FC<Props> = ({ id, errors, register }) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    disableButton.current = true;
+    if (!currentUser) {
+      loginModal.onOpen();
+      return;
+    }
+    const result = await axios.post(`/api/comment`, {
+      content: data.comment,
+      postId,
+    });
+    console.log(result);
+    reset();
+    disableButton.current = false;
+    return result;
+  };
+
   return (
     <>
       <form>
-        <div className="flex items-center px-3 py-2 rounded-lg">
+        <div className="flex items-center px-3 pt-2 pb-[2px] rounded-lg">
           <textarea
-            id="chat"
+            id="comment"
+            {...register("comment", { required: true })}
             rows={3}
-            className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+            className={`block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border outline-none focus:outline-none border-gray-300 focus:ring-black focus:border-black
+            ${errors["comment"] ? "border-rose-500" : "border-gray-300"}
+            ${
+              errors["comment"] ? "focus:border-rose-500" : "focus:border-black"
+            }
+            `}
             placeholder=" Write your comment"
-          ></textarea>
+          />
           <button
-            onClick={() => {}}
+            onClick={handleSubmit(onSubmit)}
+            disabled={disableButton.current}
             type="submit"
             className="inline-flex justify-center p-2 rounded-full cursor-pointer hover:bg-slate-200"
           >
@@ -34,9 +78,14 @@ const CommentInput: React.FC<Props> = ({ id, errors, register }) => {
             >
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
             </svg>
-            <span className="sr-only">Send message</span>
+            <span className="sr-only">Post Comment</span>
           </button>
         </div>
+        {errors["comment"] && (
+          <p className="mt-2 text-sm text-red-600 dark:text-red-500 px-3">
+            <span className="font-medium px-2.5">*Required</span>
+          </p>
+        )}
       </form>
     </>
   );
