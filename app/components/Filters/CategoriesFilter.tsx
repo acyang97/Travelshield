@@ -13,7 +13,7 @@ interface Props {
 const CategoriesFilter: React.FC<Props> = ({ setCategories, categories }) => {
   const placeHolder = (
     <div className="text-sm font-medium text-gray-400 flex align-center">
-      <span>Choose some categories</span>
+      <span>Filter by categories</span>
     </div>
   );
 
@@ -21,7 +21,7 @@ const CategoriesFilter: React.FC<Props> = ({ setCategories, categories }) => {
     <div>
       <div>
         <h5 className="block mb-[8px] text-lg font-medium text-gray-900">
-          Categories - What is your post about?
+          Categories
         </h5>
       </div>
       <Select

@@ -18,7 +18,7 @@ const CityFilter: React.FC<Props> = ({ country, city, setCity }) => {
   const allCities = getAllCities();
   const placeHolder = (
     <div className="text-sm font-medium text-gray-400 flex align-center">
-      <span>Choose a city</span>
+      <span>Filter by city</span>
     </div>
   );
   return (

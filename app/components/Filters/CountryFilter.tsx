@@ -23,7 +23,7 @@ const CountryFilter: React.FC<CountrySelectProps> = ({
 
   const placeHolder = (
     <div className="text-sm font-medium text-gray-400 flex align-center">
-      <span>Choose a country</span>
+      <span>Filter by country</span>
     </div>
   );
   return (
