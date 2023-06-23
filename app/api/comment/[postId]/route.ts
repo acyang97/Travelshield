@@ -12,7 +12,6 @@ export async function GET(request: Request, { params }: { params: Params }) {
     return NextResponse.error();
   }
   const { postId } = params;
-  console.log("postId", postId);
 
   if (!postId || typeof postId !== "string") {
     return NextResponse.error();

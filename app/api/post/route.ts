@@ -60,12 +60,11 @@ export async function GET(request: NextRequest) {
         : [{ datePosted: "desc" }],
     where: {
       ...(country && { country }),
-      ...(city && { city }),
+      ...(city && country && { city }),
       ...(content && { content: { contains: content } }),
       ...(categories?.length > 0 && { categories: { hasEvery: categories } }),
     },
   });
-
   // find out if it is like by the currentUser
   let formattedPosts = posts.map((post) => {
     const postLikes = post.postLikes;

@@ -1,8 +1,11 @@
-import { City, ICity } from "country-state-city";
+import { City } from "country-state-city";
 import { FormattedCity } from "../interfaces/country.interface";
 
 const useGetCities = (countryCode: string) => {
   const getAllCities = (): FormattedCity[] | undefined => {
+    if (countryCode === "") {
+      return [];
+    }
     if (City.getCitiesOfCountry(countryCode) === undefined) {
       return [];
     }

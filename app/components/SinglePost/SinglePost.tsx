@@ -30,9 +30,7 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
   const [newComments, setNewComments] = useState<FullComment[]>([]);
 
   const fetchComments = async () => {
-    console.log("fetching comments");
     const { data } = await axios.get(`/api/comment/${post.id}`);
-    console.log(data);
     return data as FullComment[];
   };
 
@@ -79,7 +77,7 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
 
   return (
     <>
-      <div className="px-0 py-3 md:py-8 md:px-8 flex items-center justify-center">
+      <div className="px-3 md:px-0 py-3 md:py-8 flex items-center justify-center">
         <div className="px-3 py-4 bg-white shadow rounded-lg w-[100%] md:w-[60%]">
           <div className="flex mb-4 mx-3">
             <Image

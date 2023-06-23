@@ -1,22 +1,19 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Select from "react-select";
-import { FormattedCity } from "../interfaces/country.interface";
-import { FieldValues, UseFormRegister } from "react-hook-form";
-import useGetCities from "../hooks/useGetCities";
+import useGetCities from "@/app/hooks/useGetCities";
+import {
+  FormattedCity,
+  FormattedCountry,
+} from "@/app/interfaces/country.interface";
 
 interface Props {
-  countryCode: string;
-  value?: FormattedCity;
-  onChange: (value: FormattedCity) => void;
-  register: UseFormRegister<FieldValues>;
+  country: FormattedCountry | null;
+  city: FormattedCity | null;
+  setCity: Dispatch<SetStateAction<FormattedCity | null>>;
 }
 
-const CitySelect: React.FC<Props> = ({
-  value,
-  onChange,
-  register,
-  countryCode,
-}) => {
+const CityFilter: React.FC<Props> = ({ country, city, setCity }) => {
+  const countryCode = country !== null ? country.isoCode : "";
   const { getAllCities } = useGetCities(countryCode);
   const allCities = getAllCities();
   const placeHolder = (
@@ -28,17 +25,26 @@ const CitySelect: React.FC<Props> = ({
     <div>
       <div>
         <h5 className="block mb-[8px] text-lg font-medium text-gray-900">
-          City (Optional)
+          City
         </h5>
       </div>
       <Select
         placeholder={placeHolder}
         isClearable
         options={allCities ?? []}
-        {...register("city", { required: false })}
-        value={value}
-        onChange={(value) => onChange(value as FormattedCity)}
-        // https://stackoverflow.com/questions/66303440/react-select-options-shows-default-blue-background
+        value={city}
+        noOptionsMessage={() => (
+          <div
+            className="
+        flex flex-row items-center gap-2"
+          >
+            <div>No cities</div>
+          </div>
+        )}
+        onChange={(selectedValue) => {
+          const city = selectedValue as FormattedCity;
+          setCity(city);
+        }}
         getOptionValue={(option) => option}
         formatOptionLabel={(option: any) => (
           <div
@@ -58,4 +64,4 @@ const CitySelect: React.FC<Props> = ({
   );
 };
 
-export default CitySelect;
+export default CityFilter;

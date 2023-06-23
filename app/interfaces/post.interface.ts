@@ -10,11 +10,9 @@ export interface FormattedFullPost extends IFullPost {
   likedByUser: boolean;
 }
 
-export interface ISearchParams {
-  limit: number;
-  page: number;
+export interface SearchQueryBuilder {
   country?: string;
   city?: string;
   content?: string;
-  categories?: string; // might be more than 1
+  categories?: string[];
 }

@@ -23,7 +23,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.className} bg-slate-50`}
+        className={`${nunito.className} bg-slate-100`}
         suppressHydrationWarning={true}
       >
         <ClientOnly>
