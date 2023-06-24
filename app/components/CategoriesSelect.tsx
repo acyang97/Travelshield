@@ -28,7 +28,7 @@ const CategorySelect: React.FC<Props> = ({ onChange, register, errors }) => {
       </div>
       <Select
         placeholder={placeHolder}
-        defaultValue={CATEGORIES_OPTIONS[25]}
+        defaultValue={CATEGORIES_OPTIONS[27]}
         isMulti
         {...register("categories", { minLength: 1, required: true })}
         onChange={(value) => {

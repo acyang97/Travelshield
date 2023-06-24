@@ -32,7 +32,7 @@ const PostClient: React.FC<PostClientProps> = ({ currentUser }) => {
     defaultValues: {
       title: "",
       images: [],
-      categories: [CATEGORIES_OPTIONS[25]],
+      categories: [CATEGORIES_OPTIONS[27]],
       country: null, // will pass an object
       city: null,
       content: "",
