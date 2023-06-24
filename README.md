@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## TravelShield
 
-## Getting Started
+- Ongoing project
+- Full-Stack, built using TypeScript, NextJS, MongoDB, Prisma and TailwindCSS
+- TravelShield is a web app with the aim of creating a platform dedicated for community to share valuable insights from personal adventures. This idea came to my mind after I got scammed in Kazakhstan by a taxi driver at the airport as I was not able to purchase a SIM card. Sometimes, these experiences break your day, and I hope that people will have a platform to share with one another their good and bad experiences. The aim is for this website to be the go-to site for everyone to at least be more well-prepared by reading up some experiences people faced in the country they are going to!
 
-First, run the development server:
+**What I've learnt**:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- More on NextJS 13 such as server-side rendering and next-auth.
+- Used Prisma over Mongoose. I like the fact that the schemas of the whole database is in 1 `schema.prisma` file.
+- Learnt a bit on the usage of `zustand`, another state management tool that I enjoyed using as it reduces a lot of boiler plate code and setup required compared to `redux`.
+- Tried using out `react-form-hooks`.
+- Utilized `react-query` to create infinite scroll. First time creating an infinite-scroll component, and am slightly surprised that it was not too difficult to implement.
+- Analyzing bundle from webpack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Next Steps**:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Decide whether I want to make this an actual thing for public to use or just a PET project
+- Functionality wise (not in order):
+  - Profile Page
+  - Update Profile Info
+  - Edit Post
+  - Uploading of images into posts
+  - Drafts
+- Non-functional improvements
+  - Caching
+  - Resolve high bundle size specifically from the `"country-state-city` package. Find another package to resolve this.
