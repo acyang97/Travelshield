@@ -99,6 +99,9 @@ const SinglePost: React.FC<Props> = ({ post, currentUser }) => {
             </div>
           </div>
           <TagsContainer post={post} />
+          <p className="text-gray-800 mx-3 text-lg font-semibold leading-snug md:leading-normal mb-2">
+            {post.title}
+          </p>
           <p className="text-gray-800 mx-3 leading-snug md:leading-normal">
             {post.content}
           </p>
