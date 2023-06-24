@@ -3,7 +3,7 @@
 import { Toaster } from "react-hot-toast";
 
 const ToastProvider = () => {
-  return <Toaster />;
+  return <Toaster position="top-left" />;
 };
 
 export default ToastProvider;
