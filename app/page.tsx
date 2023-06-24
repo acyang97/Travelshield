@@ -3,11 +3,12 @@
 import { signIn } from "next-auth/react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { MdOutlineFeed } from "react-icons/md";
-import HomeImage1 from "@/public/images/home-1.svg";
 import HomeImage2 from "@/public/images/home-2.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const headerContent = (
     <div className="flex flex-col justify-center items-center">
       <h2 className="text-3xl md:text-6xl font-extrabold text-center">
@@ -37,7 +38,7 @@ export default function Home() {
       </div>
       <div
         className="w-[90%] md:w-1/4 text-white bg-emerald-500 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium md:font-semibold rounded-lg text-lg px-5 py-2.5 text-center flex flex-row justify-between cursor-pointer"
-        onClick={() => signIn("google")}
+        onClick={() => router.push("/feed")}
       >
         <MdOutlineFeed size={24} className="white" />
         <div>Read Posts</div>
