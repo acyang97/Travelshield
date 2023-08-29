@@ -14,6 +14,7 @@ interface Props {
   setNumberOfLikes: Dispatch<SetStateAction<number>>;
 }
 
+// test
 const LikeButton: React.FC<Props> = ({
   currentUser,
   post,
