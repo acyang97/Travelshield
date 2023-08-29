@@ -25,3 +25,4 @@
 - Non-functional improvements
   - Caching
   - Resolve high bundle size specifically from the `"country-state-city` package. Find another package to resolve this.
+  - More info can be found on my blog
