@@ -34,6 +34,7 @@ const LikeButton: React.FC<Props> = ({
   const debounced = debounce(updateLike, 500);
   const onLikeButtonClick = async () => {
     if (!currentUser) {
+      console.log("No user");
       loginModal.onOpen();
       return;
     }
