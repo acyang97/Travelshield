@@ -14,6 +14,7 @@ interface Props {
   setNumberOfLikes: Dispatch<SetStateAction<number>>;
 }
 
+// test
 const LikeButton: React.FC<Props> = ({
   currentUser,
   post,
@@ -33,6 +34,7 @@ const LikeButton: React.FC<Props> = ({
   const debounced = debounce(updateLike, 500);
   const onLikeButtonClick = async () => {
     if (!currentUser) {
+      console.log("No user");
       loginModal.onOpen();
       return;
     }
